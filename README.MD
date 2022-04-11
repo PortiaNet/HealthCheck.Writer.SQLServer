@@ -3,11 +3,11 @@
 
 [![Nuget](https://img.shields.io/nuget/v/PortiaNet.HealthCheck.Writer.SQLServer?label=NuGet)](https://www.nuget.org/packages/PortiaNet.HealthCheck.Reporter/)
 
-This library is the SQL writer for the [PortiaNet.HealthCheck.Reporter](https://github.com/PortiaNet/HealthCheck.Reporter) and saves all reported logs to the client Microstof SQL Server.
+This library is the SQL writer for the [PortiaNet.HealthCheck.Reporter](https://github.com/PortiaNet/HealthCheck.Reporter) and saves all reported logs to the configured Microsoft SQL Server Database.
 
 ### Installation
 
-You can install this tool from [Nuget](https://www.nuget.org/packages/PortiaNet.HealthCheck.Reporter/) using Package Manager Console:
+You can install this tool from [Nuget](https://www.nuget.org/packages/PortiaNet.HealthCheck.Writer.SQLServer) using Package Manager Console:
 
 ```
 PM> Install-Package PortiaNet.HealthCheck.Writer.SQLServer
@@ -33,7 +33,7 @@ builder.Services.AddSQLServerWriter(options =>
 ```
 
 ### How it works
-By configuring the **PortiaNet.HealthCheck.Writer.SQLServer** library in DI, it adds a singletone instance of [IHealthCheckReportService](https://github.com/PortiaNet/HealthCheck.Reporter/blob/master/PortiaNet.HealthCheck.Reporter/IHealthCheckReportService.cs) to the dependency injection. By calling the initiator of the injected class, it will check if the database which is mentioned in the connection string exists or not. If not then it will try to create it, **Then the provided SQL Server credential should have _dbcreator_ privilege**.
-After ensuring about the database, the instance checks the table existance which is mentioned in the configuration. As like the database creation, it will create the table if it is not exist, then the provided SQL credential should have access to create new table in the same database.
+By configuring the **PortiaNet.HealthCheck.Writer.SQLServer** library in DI, it adds a singletone instance of [IHealthCheckReportService](https://github.com/PortiaNet/HealthCheck.Reporter/blob/master/PortiaNet.HealthCheck.Reporter/IHealthCheckReportService.cs) to the dependency injection. When the initializer of the injected class gets called, it first checks if the database which is mentioned in the connection string exists or not. If not then it will try to create a new one, **Then the provided SQL Server credential should have _dbcreator_ privilege** for this process.
+After ensuring the database, the instance checks the table existence which is mentioned in the configuration. As with the database creation, it will create the table if it does not exist, then the provided SQL credential should have access to create a new table in the same database.
 
-To decrease the time handshakes and connection closing and reopenning overheads due to the number of API calls, this service keeps the sql connection open till its work get done.
+To decrease the handshake, connection closing, and reopening overheads due to the number of API calls, this service keeps the SQL connection open till its work gets done.
