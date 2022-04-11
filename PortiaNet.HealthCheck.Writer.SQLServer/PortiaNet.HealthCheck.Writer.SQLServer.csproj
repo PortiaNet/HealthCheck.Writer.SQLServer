@@ -9,7 +9,7 @@
 		<Authors>Amin Esmaeily</Authors>
 		<PackageProjectUrl>https://github.com/PortiaNet/HealthCheck.Writer.SQLServer</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/PortiaNet/HealthCheck.Writer.SQLServer</RepositoryUrl>
-		<PackageTags>.Net; HealthCheck; Watchdog; Monitoring; Performance Monitoring</PackageTags>
+		<PackageTags>.Net; HealthCheck; Watchdog; Monitoring; Performance Monitoring; SQL Server</PackageTags>
 		<Copyright>Copyright 2022 - Amin Esmaeily</Copyright>
 		<PackageReadmeFile>README.MD</PackageReadmeFile>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
