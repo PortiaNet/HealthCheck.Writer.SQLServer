@@ -1,7 +1,7 @@
-﻿<img src="https://user-images.githubusercontent.com/11803924/159634426-45568864-0568-441c-9d0b-a28756f42f9f.png" width="400">
+﻿<img src="https://github.com/PortiaNet/HealthCheck.Reporter/blob/master/Assets/banner.png" width="400">
 
 
-[![Nuget](https://img.shields.io/nuget/v/PortiaNet.HealthCheck.Writer.SQLServer?label=NuGet)](https://www.nuget.org/packages/PortiaNet.HealthCheck.Reporter/)
+[![Nuget](https://img.shields.io/nuget/v/PortiaNet.HealthCheck.Writer.SQLServer?label=NuGet)](https://www.nuget.org/packages/PortiaNet.HealthCheck.SQLServer/)
 
 This library is the SQL writer for the [PortiaNet.HealthCheck.Reporter](https://github.com/PortiaNet/HealthCheck.Reporter) and saves all reported logs to the configured Microsoft SQL Server Database.
 
