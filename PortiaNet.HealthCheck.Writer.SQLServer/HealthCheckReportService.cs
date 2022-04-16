@@ -1,6 +1,7 @@
 ﻿using PortiaNet.HealthCheck.Reporter;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 
 namespace PortiaNet.HealthCheck.Writer.SQLServer
 {
@@ -59,8 +60,15 @@ begin
 end";
                 tableCommand.ExecuteNonQuery();
             }
-            catch
+            catch(Exception ex)
             {
+
+                Debugger.Log(0, "HTTP Writer", Environment.NewLine);
+                Debugger.Log(0, "HTTP Writer", $"Configuration Error :: {ex.Message}");
+                Debugger.Log(0, "HTTP Writer", Environment.NewLine);
+                Debugger.Log(0, "HTTP Writer", ex.StackTrace);
+                Debugger.Log(0, "HTTP Writer", Environment.NewLine);
+
                 if (!_configuration.MuteOnError)
                     throw;
             }
@@ -116,8 +124,15 @@ VALUES (
                 cmd.ExecuteNonQuery();
                 return Task.CompletedTask;
             }
-            catch
+            catch(Exception ex)
             {
+
+                Debugger.Log(0, "HTTP Writer", Environment.NewLine);
+                Debugger.Log(0, "HTTP Writer", $"Error :: {ex.Message}");
+                Debugger.Log(0, "HTTP Writer", Environment.NewLine);
+                Debugger.Log(0, "HTTP Writer", ex.StackTrace);
+                Debugger.Log(0, "HTTP Writer", Environment.NewLine);
+
                 if (!_configuration.MuteOnError)
                     throw;
                 else
