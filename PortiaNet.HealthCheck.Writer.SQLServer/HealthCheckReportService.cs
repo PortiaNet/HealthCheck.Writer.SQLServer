@@ -104,7 +104,9 @@ IF NOT EXISTS(SELECT * FROM SYSCOLUMNS WHERE id = OBJECT_ID('{_configuration.Tab
     {nameof(RequestDetail.Duration)},
     {nameof(RequestDetail.HadError)},
     {nameof(RequestDetail.NodeName)},
-    {nameof(RequestDetail.EventDateTime)}
+    {nameof(RequestDetail.EventDateTime)},
+    {nameof(RequestDetail.RequestContentLength)},
+    {nameof(RequestDetail.ResponseContentLength)}
 )
 VALUES (
     @{nameof(RequestDetail.IpAddress)},
@@ -117,7 +119,9 @@ VALUES (
     @{nameof(RequestDetail.Duration)},
     @{nameof(RequestDetail.HadError)},
     @{nameof(RequestDetail.NodeName)},
-    @{nameof(RequestDetail.EventDateTime)}
+    @{nameof(RequestDetail.EventDateTime)},
+    @{nameof(RequestDetail.RequestContentLength)},
+    @{nameof(RequestDetail.ResponseContentLength)}
 )";
                 using var cmd = _connection.CreateCommand();
                 cmd.CommandText = query;
@@ -132,6 +136,8 @@ VALUES (
                 cmd.Parameters.Add("@" + nameof(RequestDetail.HadError), SqlDbType.Bit, 0).Value = requestDetail.HadError;
                 cmd.Parameters.Add("@" + nameof(RequestDetail.NodeName), SqlDbType.VarChar, 200).Value = requestDetail.NodeName ?? string.Empty;
                 cmd.Parameters.Add("@" + nameof(RequestDetail.EventDateTime), SqlDbType.DateTime, 0).Value = requestDetail.EventDateTime;
+                cmd.Parameters.Add("@" + nameof(RequestDetail.RequestContentLength), SqlDbType.BigInt, 0).Value = requestDetail.RequestContentLength ?? 0L;
+                cmd.Parameters.Add("@" + nameof(RequestDetail.ResponseContentLength), SqlDbType.BigInt, 0).Value = requestDetail.ResponseContentLength ?? 0L;
 
                 cmd.ExecuteNonQuery();
                 return Task.CompletedTask;
