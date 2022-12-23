@@ -44,20 +44,32 @@ CREATE DATABASE {connectionStringBuilder.InitialCatalog}";
                 tableCommand.CommandText = $@"if object_id('{_configuration.TableName}') is null
 begin
 	CREATE TABLE {_configuration.TableName}(
-		Id				                        BIGINT			NOT NULL		IDENTITY(1, 1),
-		{nameof(RequestDetail.IpAddress)}		VARCHAR(200)	NOT NULL,
-        {nameof(RequestDetail.Username)}		VARCHAR(500)	NULL,
-        {nameof(RequestDetail.Host)}			VARCHAR(200)	NULL,
-        {nameof(RequestDetail.Method)}			VARCHAR(1000)	NULL,
-        {nameof(RequestDetail.Path)}			VARCHAR(1000)	NULL,
-        {nameof(RequestDetail.QueryString)}		VARCHAR(MAX)	NULL,
-        {nameof(RequestDetail.UserAgent)}		VARCHAR(MAX)	NULL,
-        {nameof(RequestDetail.Duration)}		FLOAT			NULL,
-        {nameof(RequestDetail.HadError)}		BIT				NOT NULL		DEFAULT 0,
-        {nameof(RequestDetail.NodeName)}		VARCHAR(200)	NULL,
-        {nameof(RequestDetail.EventDateTime)}   DateTime        NULL
+		Id				                                BIGINT			NOT NULL		IDENTITY(1, 1),
+		{nameof(RequestDetail.IpAddress)}		        VARCHAR(200)	NOT NULL,
+        {nameof(RequestDetail.Username)}		        VARCHAR(500)	NULL,
+        {nameof(RequestDetail.Host)}			        VARCHAR(200)	NULL,
+        {nameof(RequestDetail.Method)}			        VARCHAR(1000)	NULL,
+        {nameof(RequestDetail.Path)}			        VARCHAR(1000)	NULL,
+        {nameof(RequestDetail.QueryString)}		        VARCHAR(MAX)	NULL,
+        {nameof(RequestDetail.UserAgent)}		        VARCHAR(MAX)	NULL,
+        {nameof(RequestDetail.Duration)}		        FLOAT			NULL,
+        {nameof(RequestDetail.HadError)}		        BIT				NOT NULL		DEFAULT 0,
+        {nameof(RequestDetail.NodeName)}		        VARCHAR(200)	NULL,
+        {nameof(RequestDetail.EventDateTime)}           DateTime        NULL,
+        {nameof(RequestDetail.RequestContentLength)}    BIGINT          NULL,
+        {nameof(RequestDetail.ResponseContentLength)}   BIGINT          NULL
 	);
 end";
+                tableCommand.ExecuteNonQuery();
+
+                tableCommand.CommandText = $@"
+IF NOT EXISTS(SELECT * FROM SYSCOLUMNS WHERE id = OBJECT_ID('{_configuration.TableName}') AND NAME = '{nameof(RequestDetail.RequestContentLength)}')
+	ALTER TABLE {_configuration.TableName} ADD {nameof(RequestDetail.RequestContentLength)} BIGINT NULL";
+                tableCommand.ExecuteNonQuery();
+
+                tableCommand.CommandText = $@"
+IF NOT EXISTS(SELECT * FROM SYSCOLUMNS WHERE id = OBJECT_ID('{_configuration.TableName}') AND NAME = '{nameof(RequestDetail.ResponseContentLength)}')
+	ALTER TABLE {_configuration.TableName} ADD {nameof(RequestDetail.ResponseContentLength)} BIGINT NULL";
                 tableCommand.ExecuteNonQuery();
             }
             catch(Exception ex)

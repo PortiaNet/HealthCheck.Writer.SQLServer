@@ -5,7 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Version>1.1.0</Version>
+		<Version>1.2.0</Version>
 		<Authors>Amin Esmaeily</Authors>
 		<PackageProjectUrl>https://github.com/PortiaNet/HealthCheck.Writer.SQLServer</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/PortiaNet/HealthCheck.Writer.SQLServer</RepositoryUrl>
