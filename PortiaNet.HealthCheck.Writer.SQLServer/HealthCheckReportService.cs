@@ -57,7 +57,8 @@ begin
         {nameof(RequestDetail.NodeName)}		        VARCHAR(200)	NULL,
         {nameof(RequestDetail.EventDateTime)}           DateTime        NULL,
         {nameof(RequestDetail.RequestContentLength)}    BIGINT          NULL,
-        {nameof(RequestDetail.ResponseContentLength)}   BIGINT          NULL
+        {nameof(RequestDetail.ResponseContentLength)}   BIGINT          NULL,
+        {nameof(RequestDetail.ResponseStatusCode)}      INT             NULL
 	);
 end";
                 tableCommand.ExecuteNonQuery();
@@ -70,6 +71,11 @@ IF NOT EXISTS(SELECT * FROM SYSCOLUMNS WHERE id = OBJECT_ID('{_configuration.Tab
                 tableCommand.CommandText = $@"
 IF NOT EXISTS(SELECT * FROM SYSCOLUMNS WHERE id = OBJECT_ID('{_configuration.TableName}') AND NAME = '{nameof(RequestDetail.ResponseContentLength)}')
 	ALTER TABLE {_configuration.TableName} ADD {nameof(RequestDetail.ResponseContentLength)} BIGINT NULL";
+                tableCommand.ExecuteNonQuery();
+
+                tableCommand.CommandText = $@"
+IF NOT EXISTS(SELECT * FROM SYSCOLUMNS WHERE id = OBJECT_ID('{_configuration.TableName}') AND NAME = '{nameof(RequestDetail.ResponseStatusCode)}')
+	ALTER TABLE {_configuration.TableName} ADD {nameof(RequestDetail.ResponseStatusCode)} BIGINT NULL";
                 tableCommand.ExecuteNonQuery();
             }
             catch(Exception ex)
@@ -106,7 +112,8 @@ IF NOT EXISTS(SELECT * FROM SYSCOLUMNS WHERE id = OBJECT_ID('{_configuration.Tab
     {nameof(RequestDetail.NodeName)},
     {nameof(RequestDetail.EventDateTime)},
     {nameof(RequestDetail.RequestContentLength)},
-    {nameof(RequestDetail.ResponseContentLength)}
+    {nameof(RequestDetail.ResponseContentLength)},
+    {nameof(RequestDetail.ResponseStatusCode)}
 )
 VALUES (
     @{nameof(RequestDetail.IpAddress)},
@@ -121,7 +128,8 @@ VALUES (
     @{nameof(RequestDetail.NodeName)},
     @{nameof(RequestDetail.EventDateTime)},
     @{nameof(RequestDetail.RequestContentLength)},
-    @{nameof(RequestDetail.ResponseContentLength)}
+    @{nameof(RequestDetail.ResponseContentLength)},
+    @{nameof(RequestDetail.ResponseStatusCode)}
 )";
                 using var cmd = _connection.CreateCommand();
                 cmd.CommandText = query;
@@ -138,6 +146,7 @@ VALUES (
                 cmd.Parameters.Add("@" + nameof(RequestDetail.EventDateTime), SqlDbType.DateTime, 0).Value = requestDetail.EventDateTime;
                 cmd.Parameters.Add("@" + nameof(RequestDetail.RequestContentLength), SqlDbType.BigInt, 0).Value = requestDetail.RequestContentLength ?? 0L;
                 cmd.Parameters.Add("@" + nameof(RequestDetail.ResponseContentLength), SqlDbType.BigInt, 0).Value = requestDetail.ResponseContentLength ?? 0L;
+                cmd.Parameters.Add("@" + nameof(RequestDetail.ResponseStatusCode), SqlDbType.Int, 0).Value = requestDetail.ResponseStatusCode ?? 0;
 
                 cmd.ExecuteNonQuery();
                 return Task.CompletedTask;
