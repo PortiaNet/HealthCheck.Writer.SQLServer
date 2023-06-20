@@ -34,7 +34,7 @@ namespace PortiaNet.HealthCheck.Writer.SQLServer
     FROM sys.databases
     WHERE [name] = N'{connectionStringBuilder.InitialCatalog}'
 )
-CREATE DATABASE {connectionStringBuilder.InitialCatalog}";
+CREATE DATABASE [{connectionStringBuilder.InitialCatalog}]";
                     dbCommand.ExecuteNonQuery();
                 }
 
@@ -43,7 +43,7 @@ CREATE DATABASE {connectionStringBuilder.InitialCatalog}";
                 using var tableCommand = _connection.CreateCommand();
                 tableCommand.CommandText = $@"if object_id('{_configuration.TableName}') is null
 begin
-	CREATE TABLE {_configuration.TableName}(
+	CREATE TABLE [{_configuration.TableName}](
 		Id				                                BIGINT			NOT NULL		IDENTITY(1, 1),
 		{nameof(RequestDetail.IpAddress)}		        VARCHAR(200)	NOT NULL,
         {nameof(RequestDetail.Username)}		        VARCHAR(500)	NULL,
@@ -142,7 +142,7 @@ VALUES (
                 cmd.Parameters.Add("@" + nameof(RequestDetail.UserAgent), SqlDbType.VarChar, 4000).Value = requestDetail.UserAgent ?? string.Empty;
                 cmd.Parameters.Add("@" + nameof(RequestDetail.Duration), SqlDbType.Float, 0).Value = requestDetail.Duration;
                 cmd.Parameters.Add("@" + nameof(RequestDetail.HadError), SqlDbType.Bit, 0).Value = requestDetail.HadError;
-                cmd.Parameters.Add("@" + nameof(RequestDetail.NodeName), SqlDbType.VarChar, 200).Value = requestDetail.NodeName ?? string.Empty;
+                cmd.Parameters.Add("@" + nameof(RequestDetail.NodeName), SqlDbType.VarChar, 200).Value = _configuration.NodeName ?? requestDetail.NodeName ?? string.Empty;
                 cmd.Parameters.Add("@" + nameof(RequestDetail.EventDateTime), SqlDbType.DateTime, 0).Value = requestDetail.EventDateTime;
                 cmd.Parameters.Add("@" + nameof(RequestDetail.RequestContentLength), SqlDbType.BigInt, 0).Value = requestDetail.RequestContentLength ?? 0L;
                 cmd.Parameters.Add("@" + nameof(RequestDetail.ResponseContentLength), SqlDbType.BigInt, 0).Value = requestDetail.ResponseContentLength ?? 0L;

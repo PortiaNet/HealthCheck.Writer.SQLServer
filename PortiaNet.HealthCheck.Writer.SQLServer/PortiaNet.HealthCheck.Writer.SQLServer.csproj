@@ -5,12 +5,12 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Version>1.2.2</Version>
+		<Version>1.2.3</Version>
 		<Authors>Amin Esmaeily</Authors>
 		<PackageProjectUrl>https://github.com/PortiaNet/HealthCheck.Writer.SQLServer</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/PortiaNet/HealthCheck.Writer.SQLServer</RepositoryUrl>
 		<PackageTags>.Net; HealthCheck; Watchdog; Monitoring; Performance Monitoring; SQL Server</PackageTags>
-		<Copyright>Copyright 2022 - Amin Esmaeily</Copyright>
+		<Copyright>Copyright 2023 - Amin Esmaeily</Copyright>
 		<PackageReadmeFile>README.MD</PackageReadmeFile>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 		<Description>This package is the writer for PortiaNet.HealthCheck.Reporter library that saves the reports in an MS SQL Server Database.</Description>
