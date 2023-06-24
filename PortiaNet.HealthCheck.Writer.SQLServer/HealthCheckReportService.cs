@@ -131,7 +131,7 @@ VALUES (
     @{nameof(RequestDetail.ResponseContentLength)},
     @{nameof(RequestDetail.ResponseStatusCode)}
 )";
-                if(_connection.State != ConnectionState.Closed)
+                if(_connection.State == ConnectionState.Closed)
                     await _connection.OpenAsync();
 
                 using var cmd = _connection.CreateCommand();
