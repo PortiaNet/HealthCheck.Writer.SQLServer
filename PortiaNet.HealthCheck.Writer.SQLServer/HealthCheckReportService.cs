@@ -92,10 +92,10 @@ IF NOT EXISTS(SELECT * FROM SYSCOLUMNS WHERE id = OBJECT_ID('{_configuration.Tab
             }
         }
 
-        public Task SaveAPICallInformationAsync(RequestDetail requestDetail)
+        public async Task SaveAPICallInformationAsync(RequestDetail requestDetail)
         {
             if (_connection == null)
-                return Task.CompletedTask;
+                return;
 
             try
             {
@@ -131,6 +131,9 @@ VALUES (
     @{nameof(RequestDetail.ResponseContentLength)},
     @{nameof(RequestDetail.ResponseStatusCode)}
 )";
+                if(_connection.State != ConnectionState.Closed)
+                    await _connection.OpenAsync();
+
                 using var cmd = _connection.CreateCommand();
                 cmd.CommandText = query;
                 cmd.Parameters.Add("@" + nameof(RequestDetail.IpAddress), SqlDbType.VarChar, 200).Value = requestDetail.IpAddress?? string.Empty;
@@ -148,8 +151,7 @@ VALUES (
                 cmd.Parameters.Add("@" + nameof(RequestDetail.ResponseContentLength), SqlDbType.BigInt, 0).Value = requestDetail.ResponseContentLength ?? 0L;
                 cmd.Parameters.Add("@" + nameof(RequestDetail.ResponseStatusCode), SqlDbType.Int, 0).Value = requestDetail.ResponseStatusCode ?? 0;
 
-                cmd.ExecuteNonQuery();
-                return Task.CompletedTask;
+                await cmd.ExecuteNonQueryAsync();
             }
             catch(Exception ex)
             {
@@ -162,8 +164,6 @@ VALUES (
 
                 if (!_configuration.MuteOnError)
                     throw;
-                else
-                    return Task.CompletedTask;
             }
         }
 
