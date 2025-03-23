@@ -1,6 +1,6 @@
-﻿using PortiaNet.HealthCheck.Reporter;
+﻿using Microsoft.Data.SqlClient;
+using PortiaNet.HealthCheck.Reporter;
 using System.Data;
-using System.Data.SqlClient;
 using System.Diagnostics;
 
 namespace PortiaNet.HealthCheck.Writer.SQLServer
